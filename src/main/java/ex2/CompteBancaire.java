@@ -5,6 +5,11 @@ package ex2;
  */
 public class CompteBancaire {
 
+	/** Le type vaut soit CC=Compte courant, ou soit LA=Livret A */
+	public enum TypeCompte{
+		CC, LA;
+	}
+
 	/** solde : solde du compte */
 	private double solde;
 	
@@ -13,30 +18,28 @@ public class CompteBancaire {
 	
 	/** tauxRemuneration : taux de rémunération dans le cas d'un livret A */
 	private double tauxRemuneration;
-	
-	/** Le type vaut soit CC=Compte courant, ou soit LA=Livret A */
-	private String type;
+
+	private TypeCompte type;
 	
 	/**
 	 * @param solde
 	 * @param decouvert
 	 * @param type
 	 */
-	public CompteBancaire(String type, double solde, double decouvert) {
+	public CompteBancaire(TypeCompte type, double solde, double decouvert) {
 		super();
 		this.type = type;
 		this.solde = solde;
 		this.decouvert = decouvert;
 	}
-	
-	
+
+
 	/** Ce constructeur est utilisé pour créer un compte de type Livret A
 	 * @param type = LA
 	 * @param solde représente le solde du compte
-	 * @param decouvert  représente le découvert autorisé
 	 * @param tauxRemuneration  représente le taux de rémunération du livret A
 	 */
-	public CompteBancaire(String type, double solde, double decouvert, double tauxRemuneration) {
+	public CompteBancaire(TypeCompte type, double solde, double decouvert, double tauxRemuneration) {
 		super();
 		this.type = type;
 		this.solde = solde;
@@ -51,24 +54,17 @@ public class CompteBancaire {
 		this.solde += montant;
 	}
 	
-	/** Ajoute un montant au solde
+	/** Retirer un montant au solde
 	 * @param montant
 	 */
 	public void debiterMontant(double montant){
-		if (type.equals("CC")){
-			if (this.solde - montant > decouvert){
-				this.solde = solde - montant;
-			}	
-		}
-		else if (type.equals("LA")){
-			if (this.solde - montant > 0){
-				this.solde = solde - montant;
-			}	
+		if (this.solde - montant > decouvert || this.solde - montant > 0){
+			this.solde = solde - montant;
 		}
 	}
 	
 	public void appliquerRemuAnnuelle(){
-		if (type.equals("LA")){
+		if (type.equals(TypeCompte.LA)){
 			this.solde = solde + solde*tauxRemuneration/100;
 		}
 	}
@@ -113,13 +109,13 @@ public class CompteBancaire {
 	/** Getter for type
 	 * @return the type
 	 */
-	public String getType() {
+	public TypeCompte getType() {
 		return type;
 	}
 	/** Setter
 	 * @param type the type to set
 	 */
-	public void setType(String type) {
+	public void setType(TypeCompte type) {
 		this.type = type;
 	}
 }

@@ -6,15 +6,15 @@ import java.util.List;
 public class Caisse {
 
 	private String nom;
+	private TypeCaisse typeCaisse;
 	private List<Item> items;
 
 	/** Constructeur
 	 * @param nom
 	 */
-	public Caisse(String nom) {
-		super();
+	public Caisse(String nom, TypeCaisse typeCaisse) {
 		this.nom = nom;
-		this.items = new ArrayList<>();
+		this.typeCaisse = typeCaisse;
 	}
 
 	/** Getter pour l'attribut nom
@@ -43,6 +43,10 @@ public class Caisse {
 	 */
 	public void setItems(List<Item> items) {
 		this.items = items;
+	}
+
+	public boolean peutContenir(Item i){
+		return typeCaisse.peutContenir(i);
 	}
 	
 }
